@@ -11,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage";
 import UpdatePassword from "./pages/UpdatePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import BooksPage from "./pages/BooksPage";
 
 const routers = createBrowserRouter([
     {
@@ -25,7 +26,8 @@ const routers = createBrowserRouter([
             {path:'profile',element:<ProfilePage/>},
             {path:'updatepassword',element:<UpdatePassword/>},
             {path:'forgotPassword',element:<ForgotPassword/>},
-            {path:'resetPassword',element:<ResetPassword/>}
+            {path:'resetPassword',element:<ResetPassword/>},
+            {path:'books',element:<BooksPage/>}
         ]
     }
 ])

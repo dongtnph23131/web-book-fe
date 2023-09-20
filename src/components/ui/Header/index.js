@@ -14,6 +14,7 @@ const Header = () => {
     const navigate = useNavigate()
     const { userLogger, setUserLogger, setToken } = AppState()
     const { items } = useSelector(state => state.cartNoLogin)
+    console.log(items);
     const totalLength = items.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
     const logOut = () => {
         setUserLogger()

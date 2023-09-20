@@ -19,7 +19,7 @@ const BookItem = ({ book }) => {
                         <div className='flex justify-between mt-2'>
                             {book.discount > 0 ? <div className='flex justify-center items-center text-white font-bold w-20 rounded-sm h-[25px] bg-red-500'>-{book.discount} %</div> : <></>}
                             <div className='flex'>
-                                {book.discount > 0 ? <p class="text-sm font-medium line-through mr-2">{book.price}.000 đ</p> : <></>}
+                                {book.discount > 0 ? <p className="text-sm font-medium line-through mr-2">{book.price}.000 đ</p> : <></>}
                                 <p className="text-sm font-medium text-red-400">{book.price}.000 đ</p>
                             </div>
                         </div>

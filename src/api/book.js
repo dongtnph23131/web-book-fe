@@ -5,11 +5,11 @@ const bookApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
     endpoints: (builder) => ({
         getAllBooks: builder.query({
-            query: ({sort, order,search}) => `/books?${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}`:``}${search?`&q=${search}`:``}`,
+            query: ({ sort, order, search, limit }) => `/books?${limit ? `&_limit=${limit}` : `&_limit=4`}${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}` : ``}${search ? `&q=${search}` : ``}`,
             providesTags: ['Book']
         }),
         getAllBooksNoPage: builder.query({
-            query: ({sort, order,search,page}) => `/books?_limit=4&_page=${page}${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}`:``}${search?`&q=${search}`:``}`,
+            query: ({ sort, order, search, page, limit }) => `/books?&_page=${page}${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}` : ``}${search ? `&q=${search}` : ``}`,
             providesTags: ['Book']
         }),
         getOneBook: builder.query({
@@ -19,8 +19,8 @@ const bookApi = createApi({
         addViewBook: builder.mutation({
             query: (id) => {
                 return {
-                    url:`/books/addView/${id}`,
-                    method:'PATCH',
+                    url: `/books/addView/${id}`,
+                    method: 'PATCH',
                 }
             },
             invalidatesTags: ['Book']
@@ -28,5 +28,5 @@ const bookApi = createApi({
     })
 })
 
-export const {useGetAllBooksQuery,useGetAllBooksNoPageQuery,useGetOneBookQuery,useAddViewBookMutation}=bookApi
+export const { useGetAllBooksQuery, useGetAllBooksNoPageQuery, useGetOneBookQuery, useAddViewBookMutation } = bookApi
 export default bookApi
