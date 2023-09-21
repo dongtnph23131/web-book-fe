@@ -46,7 +46,7 @@ const Cart = () => {
                     <h2 className='font-bold tracking-tighter lg:leading-[1.1] text-2xl md:text-3xl mt-5'>Giỏ hàng</h2>
                 </div>
                 {userLogger ? <>
-                    {data.cart.items.length === 0 ? <div className='px-10 py-3 mt-5 w-full h-[3rem] font-bold bg-gray-100'>
+                    {data.cart.items.length === 0 ? <div className='px-10 py-3 mt-5 w-full h-[3rem] font-bold bg-gray-100 flex justify-center items-center'>
                         {data.message}
                     </div> : <>
                         <div className='lg:grid lg:grid-cols-2 lg:gap-x-6'>

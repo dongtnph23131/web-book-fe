@@ -1,7 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { AppState } from '../../context/AppProvider'
+import { useAddItemCartMutation } from '../../api/cart'
+import { message } from 'antd'
+import { addItem } from '../../slices/cart'
+import { useDispatch } from 'react-redux'
 
 const BookItem = ({ book }) => {
+    const { userLogger } = AppState()
+    const [addItemCart] = useAddItemCartMutation()
+    const dispatch = useDispatch()
     return (
         <NavLink to={`/books/${book._id}`}>
             <div className="group relative border border-gray-200 px-5 py-5" >
@@ -11,7 +19,7 @@ const BookItem = ({ book }) => {
                 <div className="mt-4 justify-between">
                     <div>
                         <h3 className="text-sm text-gray-700">
-                            <p>
+                            <p className='font-bold'>
                                 <span aria-hidden="true" className="absolute inset-0"></span>
                                 {book.name}
                             </p>
@@ -25,6 +33,14 @@ const BookItem = ({ book }) => {
                         </div>
                         <p className="mt-2 text-sm text-gray-800">Tác giả : {book.authorId.name}</p>
                     </div>
+                </div>
+                <div className='flex items-center p-4'>
+                    {userLogger ? <button onClick={() => {
+                        addItemCart({ productId: book._id, productImage: book.coverImage, productPrice: book.price })
+                        message.success('Sản phẩm đã được thêm vào giỏ hàng')
+                    }} className="bg-black text-white inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 text-xs h-8 w-full rounded-sm" aria-label="Add to cart">Add to cart</button> : <button onClick={()=>{
+                        dispatch(addItem({ productId: book._id, productImage: book.coverImage, productPrice: book.price, quantity: 1 }))
+                    }} className="bg-black text-white inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 text-xs h-8 w-full rounded-sm" aria-label="Add to cart">Add to cart</button>}
                 </div>
             </div>
 
