@@ -10,13 +10,13 @@ const categoryApi = createApi({
                 providesTags: ['Categpry']
             }),
             getOneCategory: bulder.query({
-                query: ({ id, sort, order, page }) => {
-                    return `/categories/${id}?_limit=4&_page=${page}${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}` : ``}`
+                query: ({ id, sort, order, page,limit }) => {
+                    return `/categories/${id}?${limit ? `&_limit=${limit}`:'_limit=100'}&_page=${page}${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}` : ``}`
                 },
                 providesTags: ['Categpry']
             }),
             getOneCategoryNoPage: bulder.query({
-                query: ({ id, sort, order}) => {
+                query: ({ id, sort, order }) => {
                     return `/categories/${id}?${sort ? `&_sort=${sort}` : ``}${order ? `&_order=${order}` : ``}`
                 },
                 providesTags: ['Categpry']
@@ -24,5 +24,5 @@ const categoryApi = createApi({
         }
     }
 })
-export const { useGetAllCategoryQuery, useGetOneCategoryQuery,useGetOneCategoryNoPageQuery } = categoryApi
+export const { useGetAllCategoryQuery, useGetOneCategoryQuery, useGetOneCategoryNoPageQuery } = categoryApi
 export default categoryApi

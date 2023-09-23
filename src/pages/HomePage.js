@@ -4,8 +4,8 @@ import { Spinner } from '@chakra-ui/react'
 import BookItem from '../components/Books/BookItem'
 
 const HomePage = () => {
-  const { data, isLoading } = useGetAllBooksQuery({ sort: 'numberSearch', order: 'desc' })
-  const { data: dataView } = useGetAllBooksQuery({ sort: 'view', order: 'desc' })
+  const { data, isLoading } = useGetAllBooksQuery({ sort: 'numberSearch', order: 'desc',limit:4 })
+  const { data: dataView } = useGetAllBooksQuery({ sort: 'view', order: 'desc',limit:4 })
   return (
     <>
       <section className='grid items-center pb-8 pt-6 md:py-8 container gap-12'>

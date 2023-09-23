@@ -7,14 +7,13 @@ import { useSelector } from 'react-redux'
 import { useGetCartOfUserQuery } from '../../../api/cart'
 
 const Header = () => {
+    const { userLogger, setUserLogger, setToken ,token} = AppState()
     const { data } = useGetCartOfUserQuery()
     const [isMenu, setIsMenu] = useState(false)
     const [isSearch, setIsSearch] = useState(false)
     const [value, setValue] = useState('')
     const navigate = useNavigate()
-    const { userLogger, setUserLogger, setToken } = AppState()
     const { items } = useSelector(state => state.cartNoLogin)
-    console.log(items);
     const totalLength = items.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0)
     const logOut = () => {
         setUserLogger()

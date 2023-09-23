@@ -8,16 +8,16 @@ import { NavLink } from 'react-router-dom'
 
 const BooksPage = () => {
     const [isMenu, setIsMenu] = useState(false)
+    const [dataCategories, setDataCategories] = useState([])
+    const [listCategories, setListCategories] = useState([])
+    const [isCategories, setIsCategories] = useState(false)
     const [sort, setSort] = useState()
     const [order, setOrder] = useState()
     const [page, setPage] = useState(1)
-    const { data, isLoading } = useGetAllBooksQuery({ sort, order, page, limit: 8 })
-    const { dataNopage } = useGetAllBooksNoPageQuery({ sort, order, page })
+    const { data, isLoading } = useGetAllBooksQuery({ sort, order, page, limit: 4, dataCategories })
+    const { data:dataNopage } = useGetAllBooksNoPageQuery({ sort, order, dataCategories })
     const [isFilter, setIsFilter] = useState(false)
     const { data: categories } = useGetAllCategoryQuery()
-    const [dataCategories, setDataCategories] = useState([])
-    const [listCategories, setListCategories] = useState([])
-    const [isCategories,setIsCategories]=useState(false)
     useEffect(() => {
         setListCategories(categories)
     }, [categories])
@@ -62,6 +62,18 @@ const BooksPage = () => {
                             setOrder('desc')
                             setPage(1)
                         }} className='relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full'>Giá cao đến thấp</button>
+                        <button onClick={() => {
+                            setIsMenu(false)
+                            setSort('name')
+                            setOrder('asc')
+                            setPage(1)
+                        }} className='relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full'>A đến Z</button>
+                        <button onClick={() => {
+                            setIsMenu(false)
+                            setSort('name')
+                            setOrder('desc')
+                            setPage(1)
+                        }} className='relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full'>Z đến A</button>
                     </div> : <></>}
                 </div>
                 <div className="bg-white">
@@ -93,33 +105,37 @@ const BooksPage = () => {
                             <div className='group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'>
                                 {dataCategories?.map((item) => {
                                     return <div key={item._id} className='inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground rounded hover:bg-secondary'>{item.name}
-                                        <button onClick={()=>{
-                                            setDataCategories(dataCategories.filter(category=>category._id!==item._id))
-                                            setListCategories([item,...listCategories])
+                                        <button onClick={() => {
+                                            setDataCategories(dataCategories.filter(category => category._id !== item._id))
+                                            setListCategories([item, ...listCategories])
                                         }} className="inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow rounded-md text-xs ml-2 h-auto bg-transparent p-0 text-primary hover:bg-transparent hover:text-destructive" aria-label="Remove option"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
                                     </div>
                                 })}
-                                <input onClick={()=>setIsCategories(true)} placeholder='Select categories' className='flex-1 bg-transparent px-1 py-0.5 outline-none placeholder:text-muted-foreground' />
+                                <input onClick={() => setIsCategories(true)} placeholder='Select categories' className='flex-1 bg-transparent px-1 py-0.5 outline-none placeholder:text-muted-foreground' />
                             </div>
                         </div>
-                      {isCategories?  <div className='relative z-50 mt-2'>
+                        {isCategories ? <div className='relative z-50 mt-2'>
                             <div className="absolute right-0 z-10 mt-2 w-56 h-[10rem] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-y-scroll">
                                 <div className="py-1">
                                     {listCategories?.map(item => {
                                         return <button onClick={() => {
-                                            setDataCategories([...dataCategories,{ _id: item._id, name: item.name }])
+                                            setDataCategories([...dataCategories, { _id: item._id, name: item.name }])
                                             setListCategories(listCategories.filter(category => category._id !== item._id))
                                         }} key={item._id} className="text-gray-700 block px-4 py-2 text-sm">{item.name}</button>
                                     })}
                                 </div>
                             </div>
-                        </div>:<></>}
+                        </div> : <></>}
                     </div>
                     <div>
                         <div className="shrink-0 bg-border h-[1px] w-full my-4">
                         </div>
                         <div className='flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2'>
-                            <button className='bg-black text-white inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs w-full'>Clear Filters</button>
+                            <button onClick={()=>{
+                                setListCategories([])
+                                setDataCategories([])
+                                setIsFilter(false)
+                            }} className='bg-black text-white inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs w-full'>Clear Filters</button>
                         </div>
                     </div>
                 </div>

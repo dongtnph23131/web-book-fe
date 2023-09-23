@@ -11,7 +11,7 @@ const CategoryPage = () => {
     const [sort, setSort] = useState()
     const [order, setOrder] = useState()
     const [page, setPage] = useState(1)
-    const { data, isLoading } = useGetOneCategoryQuery({ id, sort, order, page })
+    const { data, isLoading } = useGetOneCategoryQuery({ id, sort, order, page, limit: 4 })
     const { data: dataNopage } = useGetOneCategoryNoPageQuery({ id, sort, order })
     return (
         <>
@@ -44,7 +44,6 @@ const CategoryPage = () => {
                         <h2 className='font-bold tracking-tighter lg:leading-[1.1] text-2xl md:text-3xl mt-5'>{data[0].categoryId.name} </h2>
                         <p className='text-muted-foreground max-w-[750px] text-sm sm:text-base mt-5'>By books from {data[0].categoryId.name}<span className='font-bold'>{sort ? `- ${sort}` : ``} {order ? `- ${order}` : ``}</span></p>
                     </div>
-
                     <div className='flex items-center space-x-2 mt-[5rem] mb-10 ml-10'>
                         <button onClick={() => setIsMenu(!isMenu)} className='relative inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 rounded-md px-3 text-xs bg-black text-white'>Sort
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
@@ -70,6 +69,18 @@ const CategoryPage = () => {
                                 setOrder('desc')
                                 setPage(1)
                             }} className='relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full'>Giá cao đến thấp</button>
+                            <button onClick={() => {
+                                setIsMenu(false)
+                                setSort('name')
+                                setOrder('asc')
+                                setPage(1)
+                            }} className='relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full'>A đến Z</button>
+                            <button onClick={() => {
+                                setIsMenu(false)
+                                setSort('name')
+                                setOrder('desc')
+                                setPage(1)
+                            }} className='relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full'>Z đến A</button>
                         </div> : <></>}
                     </div>
                     <div className="bg-white mt-[-5rem]">

@@ -6,6 +6,7 @@ import { Spinner } from '@chakra-ui/react';
 import { AppState } from '../context/AppProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, remove, removeItemNoLogin } from '../slices/cart';
+import { NavLink } from 'react-router-dom';
 
 const Cart = () => {
     const { data, isLoading } = useGetCartOfUserQuery()
@@ -18,7 +19,7 @@ const Cart = () => {
     const totalCart = items.reduce((accumulator, currentValue) => accumulator + currentValue.productPrice * currentValue.quantity, 0);
     return (
         <>
-            {isLoading ? <div className='flex justify-center items-center mt-10'>
+            {isLoading | isLoadingAdd | isLoadingRemoveItem | isLoadingRemoveProductItem ? <div className='flex justify-center items-center mt-10'>
                 <Spinner thickness='4px'
                     speed='0.65s'
                     emptyColor='gray.200'
@@ -101,8 +102,8 @@ const Cart = () => {
                             </div>
                         </div>
                         <div className='flex justify-center items-center mt-10 mb-[10rem]'>
-                            <button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button>
-                            <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Thanh toán</button>
+                            <NavLink to={'/'}><button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button></NavLink>
+                            <NavLink to={'/checkout/address'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
                         </div>
                     </>}
                 </> : <>
@@ -128,7 +129,7 @@ const Cart = () => {
                                                         }}>+</Button>
                                                     </div>
                                                     <Button onClick={() => {
-                                                           dispatch(remove({ productId: item.productId }))
+                                                        dispatch(remove({ productId: item.productId }))
                                                     }} className='ml-5'><FaTrash /></Button>
                                                 </div>
                                                 <p className='text-red-500 mt-5'>{item.quantity} x {item.productPrice}.000 đ</p>
@@ -158,8 +159,8 @@ const Cart = () => {
                         </div>
                     </div>
                     <div className='flex justify-center items-center mt-10'>
-                        <button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button>
-                        <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Thanh toán</button>
+                        <NavLink to={'/'}><button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button></NavLink>
+                        <NavLink to={'/checkout/address'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
                     </div>
                 </>}
             </>}
