@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import LayoutWebsite from "./components/layouts/website";
 import HomePage from "./pages/HomePage";
 import Signin from "./pages/Signin";
@@ -19,6 +19,18 @@ import CategoryListAdmin from "./pages/admin/category/CategoryList";
 import AuthorListAdmin from "./pages/admin/author/AuthorList";
 import PublishingCompanyListAdmin from "./pages/admin/publishingCompany/publishingCompany";
 import CheckoutAddress from "./pages/CheckoutAddress";
+import { AppState } from "./context/AppProvider";
+
+const PrivateRouter = () => {
+    const { userLogger } = AppState()
+    if (!userLogger) {
+        return <Navigate to={'/signin'} />
+    }
+    if (userLogger.role !== 'admin') {
+        return <Navigate to={'/'} />
+    }
+    return <Outlet />
+}
 
 const routers = createBrowserRouter([
     {
@@ -39,12 +51,16 @@ const routers = createBrowserRouter([
         ]
     },
     {
-        path: 'admin', element: <LayoutAdmin />, children: [
-            { path: 'books', element: <BookListAdmin /> },
-            { path: 'books/add', element: <BookAdd /> },
-            { path: 'categories', element: <CategoryListAdmin /> },
-            { path: 'authors', element: <AuthorListAdmin /> },
-            { path: "publishingCompanys", element: <PublishingCompanyListAdmin /> }
+        path: 'admin', element: <PrivateRouter />, children: [
+            {
+                element: <LayoutAdmin />, children: [
+                    { path: 'books', element: <BookListAdmin /> },
+                    { path: 'books/add', element: <BookAdd /> },
+                    { path: 'categories', element: <CategoryListAdmin /> },
+                    { path: 'authors', element: <AuthorListAdmin /> },
+                    { path: "publishingCompanys", element: <PublishingCompanyListAdmin /> }
+                ]
+            }
         ]
     }
 ])

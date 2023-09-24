@@ -68,9 +68,9 @@ const CheckoutAddress = () => {
         const cityNew = city ? city : user.user.city
         const wardNew = ward ? ward : user.user.ward
         const districtNew = district ? district : user.user.district
-        const newUser={ ...value, city: cityNew, ward: wardNew, district: districtNew }
+        const newUser = { ...value, city: cityNew, ward: wardNew, district: districtNew }
 
-        const data = await updateProfile({newUser,token});
+        const data = await updateProfile({ newUser, token });
         localStorage.setItem('user', JSON.stringify(data.data.user))
         setUserLogger(data.data.user)
         setToken(data.data.token)
@@ -87,6 +87,28 @@ const CheckoutAddress = () => {
                     size='xl' />
             </div> : <>
                 {isMatch ? <>
+                    <div className='flex justify-center items-center mt-10'>
+                        <div className='justify-center items-center'>
+                            <div className='w-10 h-10 rounded-full bg-black text-white font-bold flex justify-center items-center'>1</div>
+                        </div>
+                        <div className='w-40 h-1 bg-gray-400'></div>
+                        <div className='justify-center items-center'>
+                            <div className='w-10 h-10 rounded-full bg-gray-300 text-black font-bold flex justify-center items-center'>2</div>
+                        </div>
+                        <div className='w-40 h-1 bg-gray-400'></div>
+                        <div className='justify-center items-center'>
+                            <div className='w-10 h-10 rounded-full bg-gray-300 text-black font-bold flex justify-center items-center'>3</div>
+                        </div>
+                    </div>
+                    <div className='flex justify-center items-center grid-cols-3 mt-5'>
+                        <div>
+                            <p className='font-bold text-xl'>Địa chỉ giao hàng</p>
+                        </div>
+                        <div className='px-8'>
+                            <p className='font-bold text-xl'>Hình thức thanh toán</p>
+                        </div>
+                        <p className='font-bold text-xl'>Xác nhận & Đặt hàng</p>
+                    </div>
                     <div className='flex justify-center items-center'>
                         <div className='flex w-full justify-between mt-10 '>
                             <h2 className='font-bold tracking-tighter lg:leading-[1.1] text-3xl md:text-4xl'>Địa chỉ giao hàng</h2>
@@ -108,6 +130,28 @@ const CheckoutAddress = () => {
                         <NavLink to={'/checkout/address'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
                     </div>
                 </> : <>
+                    <div className='flex justify-center items-center mt-10'>
+                        <div className='justify-center items-center'>
+                            <div className='w-10 h-10 rounded-full bg-black text-white font-bold flex justify-center items-center'>1</div>
+                        </div>
+                        <div className='w-40 h-1 bg-gray-400'></div>
+                        <div className='justify-center items-center'>
+                            <div className='w-10 h-10 rounded-full bg-gray-300 text-black font-bold flex justify-center items-center'>2</div>
+                        </div>
+                        <div className='w-40 h-1 bg-gray-400'></div>
+                        <div className='justify-center items-center'>
+                            <div className='w-10 h-10 rounded-full bg-gray-300 text-black font-bold flex justify-center items-center'>3</div>
+                        </div>
+                    </div>
+                    <div className='flex justify-center items-center grid-cols-3 mt-5'>
+                        <div>
+                            <p className='font-bold text-xl'>Địa chỉ giao hàng</p>
+                        </div>
+                        <div className='px-8'>
+                            <p className='font-bold text-xl'>Hình thức thanh toán</p>
+                        </div>
+                        <p className='font-bold text-xl'>Xác nhận & Đặt hàng</p>
+                    </div>
                     <h2 className='font-bold tracking-tighter lg:leading-[1.1] text-2xl md:text-3xl mt-5'>Địa chỉ giao hàng</h2>
                     <Form
                         form={form}
