@@ -1,15 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-const token = JSON.parse(localStorage.getItem('token'))
 const userApi = createApi({
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
     endpoints: (builder) => ({
         updatePassword: builder.mutation({
-            query: (item) => {
+            query: ({value,token}) => {
                 return {
                     url: '/updatePassword',
                     method: 'PATCH',
-                    body: item,
+                    body: value,
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

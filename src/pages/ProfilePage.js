@@ -16,7 +16,7 @@ const ProfilePage = () => {
     const [isLoadingImg, setIsLoadingImg] = useState(false)
     const onFinish = async (value) => {
         const newUser = { ...value, avatar: image }
-        const data = await updateProfile(newUser)
+        const data = await updateProfile({newUser,token})
         if (data?.data.user) {
             localStorage.setItem('user', JSON.stringify(data.data.user))
             setUserLogger(data.data.user)

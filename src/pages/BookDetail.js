@@ -13,6 +13,7 @@ import { BsCart4 } from 'react-icons/bs'
 import { addItem } from '../slices/cart'
 const BookDetail = () => {
     const [isMenu, setIsMenu] = useState(false)
+    const {token}=AppState()
     const { id } = useParams()
     const { data, isLoading } = useGetOneBookQuery(id)
     const [addViewBook] = useAddViewBookMutation()
@@ -99,7 +100,8 @@ const BookDetail = () => {
                                 </div>
                                 {userLogger ? <div className='flex justify-center items-center'>
                                     <button onClick={async () => {
-                                        addItemCart({ productId: data._id, productImage: data.coverImage, productPrice: data.price })
+                                        const itemNew={ productId: data._id, productImage: data.coverImage, productPrice: data.price }
+                                        addItemCart({itemNew,token})
                                         message.success('Sản phẩm đã được thêm vào giỏ hàng')
                                     }} className='bg-yellow-400 w-[10rem] h-10 rounded-lg mt-5 flex justify-center items-center'>
                                         <BsCart4 className='text-2xl ml-2 mr-2' /> Add to cart

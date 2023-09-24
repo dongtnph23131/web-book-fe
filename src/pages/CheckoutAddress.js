@@ -19,7 +19,6 @@ const CheckoutAddress = () => {
     const [updateProfile, { isLoadingUpdateProfile }] = useUpdateProfileMutation()
     const { token, setUserLogger, setToken } = AppState()
     const { data: user, isLoading } = useGetProfileQuery(token)
-    console.log(user);
     const [isMatch, setIsMatch] = useState(false)
     useEffect(() => {
         fetch('https://vapi.vnappmob.com/api/province/').then(response => response.json()).then(data => {
@@ -69,8 +68,9 @@ const CheckoutAddress = () => {
         const cityNew = city ? city : user.user.city
         const wardNew = ward ? ward : user.user.ward
         const districtNew = district ? district : user.user.district
+        const newUser={ ...value, city: cityNew, ward: wardNew, district: districtNew }
 
-        const data = await updateProfile({ ...value, city: cityNew, ward: wardNew, district: districtNew });
+        const data = await updateProfile({newUser,token});
         localStorage.setItem('user', JSON.stringify(data.data.user))
         setUserLogger(data.data.user)
         setToken(data.data.token)

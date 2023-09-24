@@ -9,9 +9,9 @@ import { AppState } from '../context/AppProvider'
 const UpdatePassword = () => {
     const navigate = useNavigate()
     const [updatePassword, { isLoading }] = useUpdatePasswordMutation()
-    const { setToken, setUserLogger } = AppState()
+    const {token, setToken, setUserLogger } = AppState()
     const onFinish = async (value) => {
-        const data = await updatePassword(value)
+        const data = await updatePassword({value,token})
         if (data?.data) {
             Swal.fire(
                 'Good job!',

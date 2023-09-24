@@ -7,7 +7,7 @@ import { addItem } from '../../slices/cart'
 import { useDispatch } from 'react-redux'
 
 const BookItem = ({ book }) => {
-    const { userLogger } = AppState()
+    const { token,userLogger, } = AppState()
     const [addItemCart] = useAddItemCartMutation()
     const dispatch = useDispatch()
     return (
@@ -36,7 +36,8 @@ const BookItem = ({ book }) => {
                 </div>
                 <div className='flex items-center p-4'>
                     {userLogger ? <button onClick={() => {
-                        addItemCart({ productId: book._id, productImage: book.coverImage, productPrice: book.price })
+                        const itemNew={ productId: book._id, productImage: book.coverImage, productPrice: book.price }
+                        addItemCart({itemNew,token})
                         message.success('Sản phẩm đã được thêm vào giỏ hàng')
                     }} className="bg-black text-white inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 text-xs h-8 w-full rounded-sm" aria-label="Add to cart">Add to cart</button> : <button onClick={()=>{
                         dispatch(addItem({ productId: book._id, productImage: book.coverImage, productPrice: book.price, quantity: 1 }))

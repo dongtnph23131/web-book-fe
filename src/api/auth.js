@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-const token=JSON.parse(localStorage.getItem('token'))
 const authApi = createApi({
     reducerPath: 'auth',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
@@ -29,14 +28,14 @@ const authApi = createApi({
             }
         }),
         updateProfile: builder.mutation({
-            query: (user) => {
+            query: ({newUser,token}) => {
                 return {
                     url: '/updateProfile',
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                     method: 'PATCH',
-                    body: user
+                    body: newUser
                 }
             }
         }),

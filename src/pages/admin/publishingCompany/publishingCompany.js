@@ -6,13 +6,17 @@ import { NavLink } from 'react-router-dom'
 import { useGetAllBooksNoPageQuery } from '../../../api/book'
 import { AiFillCloseCircle, AiFillEye } from 'react-icons/ai'
 import BooksListModal from '../../../components/Modal/BooksListModal'
+import { useGetAllAuthorQuery } from '../../../api/author'
+import AuthorListModal from '../../../components/Modal/AuthorListModal'
 
 const PublishingCompanyListAdmin = () => {
     const { data, isLoading } = useGetAllPublishingCompanyQuery()
+    const { data: authors } = useGetAllAuthorQuery()
     const [isBook, setIsBook] = useState(false)
     const { data: books } = useGetAllBooksNoPageQuery({ sort: 'createAt' })
     const [dataProps, setDataProps] = useState([])
-    console.log(data);
+    const [dataPropsAuthors, setDataPropsAuthors] = useState([])
+    const [isAuthor, setIsAuthor] = useState(false)
     const dataSource = data?.map((item) => (
         {
             key: item._id,
@@ -58,7 +62,13 @@ const PublishingCompanyListAdmin = () => {
         {
             title: 'Số lượng tác giả',
             dataIndex: 'lengthAuthor',
-            key: 'lengthAuthor'
+            key: 'lengthAuthor',
+            render: (item, dataItem) => {
+                return <div className='flex'>{item} <AiFillEye onClick={() => {
+                    setDataPropsAuthors(authors.filter(author =>author.publishingCompanyId._id=== dataItem.key))
+                    setIsAuthor(true)
+                }} className='ml-2 mt-1 text-xl' /></div>
+            }
 
         },
         {
@@ -95,6 +105,14 @@ const PublishingCompanyListAdmin = () => {
                         <AiFillCloseCircle onClick={() => setIsBook(false)} className='text-5xl' />
                     </button>
                     <BooksListModal data={dataProps} />
+                </div>
+            </> : <></>}
+            {isAuthor ? <>
+                <div className='px-10 py-10 bg-gray-50 fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'>
+                    <button type="button" className=" absolute right-20 top-5 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                        <AiFillCloseCircle onClick={() => setIsAuthor(false)} className='text-5xl' />
+                    </button>
+                    <AuthorListModal data={dataPropsAuthors} />
                 </div>
             </> : <></>}
         </>
