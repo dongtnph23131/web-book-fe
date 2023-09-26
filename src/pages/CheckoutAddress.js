@@ -17,7 +17,7 @@ const CheckoutAddress = () => {
     const [district, setDistrict] = useState("")
     const [ward, setWard] = useState('')
     const [updateProfile, { isLoadingUpdateProfile }] = useUpdateProfileMutation()
-    const { token, setUserLogger, setToken } = AppState()
+    const { token, setUserLogger, setToken,notes,setNodes } = AppState()
     const { data: user, isLoading } = useGetProfileQuery(token)
     const [isMatch, setIsMatch] = useState(false)
     useEffect(() => {
@@ -69,7 +69,6 @@ const CheckoutAddress = () => {
         const wardNew = ward ? ward : user.user.ward
         const districtNew = district ? district : user.user.district
         const newUser = { ...value, city: cityNew, ward: wardNew, district: districtNew }
-
         const data = await updateProfile({ newUser, token });
         localStorage.setItem('user', JSON.stringify(data.data.user))
         setUserLogger(data.data.user)
@@ -123,7 +122,7 @@ const CheckoutAddress = () => {
                         <p className='font-mono text-xl mt-5'>0{user.user.phone}</p>
                         <p className='font-mono text-xl mt-5'>Gửi hàng qua bưu điện</p>
                         <div className='border-b-slate-100 border mb-5'></div>
-                        Ghi chú giao hàng  <TextArea rows={4} className='mb-5 mt-5' />
+                        Ghi chú giao hàng  <TextArea onChange={(event)=>setNodes(event.target.value)} rows={4} className='mb-5 mt-5' />
                     </div>
                     <div className='flex justify-center items-center mt-10'>
                         <NavLink to={'/cart'}><button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button></NavLink>
@@ -198,5 +197,4 @@ const CheckoutAddress = () => {
         </>
     )
 }
-
 export default CheckoutAddress

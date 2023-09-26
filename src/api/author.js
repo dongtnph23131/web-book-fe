@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { config } from "../config"
+const url=config()
 const authorApi = createApi({
     tagTypes: ['Author'],
     reducerPath: 'author',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-yfsw.onrender.com/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
     endpoints: (builder) => ({
         getAllAuthor: builder.query({
             query: () => '/authors',

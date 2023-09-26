@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { config } from "../config"
+const url=config()
 const authApi = createApi({
     reducerPath: 'auth',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-yfsw.onrender.com/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
     endpoints: (builder) => ({
         signin: builder.mutation({
             query: (user) => ({

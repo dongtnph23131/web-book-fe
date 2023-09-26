@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { useGetAllUserQuery } from '../../../api/user'
 import { Spinner } from '@chakra-ui/react'
-import { Button, Form, Input, Modal, Radio, Table } from 'antd'
+import { Button, Form, Input, Modal, Radio, Table, message } from 'antd'
 import { useAddCouponsToUserMutation } from '../../../api/coupons'
 import { GoSync } from 'react-icons/go'
 import { AppState } from '../../../context/AppProvider'
+import { config } from '../../../config'
+const url = config()
 const ListUserAdmin = () => {
-    const {token} = AppState()
+    const { token } = AppState()
     const [value, setValue] = useState('');
     const [search, setSearch] = useState('')
     const { data, isLoading } = useGetAllUserQuery({ role: value, search })
-    const [userId,setUserId]=useState('')
-    const [addToCoupons,{isLoadingAdd}]=useAddCouponsToUserMutation()
+    const [userId, setUserId] = useState('')
+    const [addToCoupons, { isLoadingAdd }] = useAddCouponsToUserMutation()
     const [coupons, setCoupons] = useState('')
     const [errorSearch, setErrorSearch] = useState('')
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,8 +25,8 @@ const ListUserAdmin = () => {
         setCoupons('')
         setIsModalOpen(false);
     };
-    
-    const [form]=Form.useForm()
+
+    const [form] = Form.useForm()
     const dataSource = data?.map((item) => (
         {
             key: item._id,
@@ -67,7 +69,7 @@ const ListUserAdmin = () => {
         {
             render: (item) => {
                 return <>
-                    <Button className='flex' onClick={()=>{
+                    <Button className='flex' onClick={() => {
                         showModal()
                         setUserId(item.key)
                     }}>Tặng phiếu mua hàng</Button>
@@ -76,13 +78,13 @@ const ListUserAdmin = () => {
         }
     ];
     const onSearchCouponsAdmin = ({ search }) => {
-        form.setFieldsValue({search:''})
-        fetch(`https://bookstore-yfsw.onrender.com/api/coupons/search/admin?search=${search}`).then(response => response.json()).then(data => {
+        form.setFieldsValue({ search: '' })
+        fetch(`${url}/coupons/search/admin?search=${search}`).then(response => response.json()).then(data => {
             if (!data?.message) {
                 setCoupons(data)
             }
             else {
-                setErrorSearch('Phiếu phảm giá không tồn tại')
+                setErrorSearch(data.message)
             }
         })
     }
@@ -115,8 +117,8 @@ const ListUserAdmin = () => {
                     <Form.Item rules={[{ required: true, message: 'Nhập mã giảm giá' }]} name={'search'}>
                         <Input onChange={(e) => {
                             setErrorSearch('')
-                            setCoupons('')    
-                        }}  placeholder='Nhập mã giảm giá' className='w-full' />
+                            setCoupons('')
+                        }} placeholder='Nhập mã giảm giá' className='w-full' />
                     </Form.Item>
                     <Button className='ml-5' htmlType='submit'  >Tìm</Button>
                 </Form>
@@ -125,8 +127,11 @@ const ListUserAdmin = () => {
                     Giá trị : <p className='text-red-500'>{coupons.value}.000 đ</p>
                     Điều kiện : <p className='text-red-500'>Đơn hàng có giá trị hơn {coupons.min_purchase_amount}.000 đ</p>
                     Ngày hết hạn : <p className='text-red-500'>{coupons.expiration_date}</p>
-                    <Button className='mt-5' onClick={()=>{
-                         addToCoupons({code:coupons.name,userId,token})
+                    <Button className='mt-5' onClick={async () => {
+                        const data = await addToCoupons({ code: coupons._id, userId, token })
+                        message.success(data.data.message)
+                        setCoupons('')
+                        setIsModalOpen(false);
                     }}>{isLoadingAdd ? <GoSync className='animate-spin' /> : 'Tặng phiếu giảm giá'}</Button>
                 </> : <></>}
                 <>{errorSearch ? <p className='text-red-500'>{errorSearch}</p> : ""}</>

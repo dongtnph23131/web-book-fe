@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { config } from "../config"
+const url=config()
 const token=JSON.parse(localStorage.getItem('token'))
 const bookApi = createApi({
     tagTypes: ['Book'],
     reducerPath: 'book',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-yfsw.onrender.com/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
     endpoints: (builder) => ({
         getAllBooks: builder.query({
             query: ({ sort, order, search, limit, dataCategories, page }) => {

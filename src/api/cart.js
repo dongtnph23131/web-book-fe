@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-
+import { config } from "../config"
+const url=config()
 const cartApi = createApi({
     tagTypes: ['Cart'],
     reducerPath: 'cart',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-yfsw.onrender.com/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${url}` }),
     endpoints: (builder) => ({
         getCartOfUser: builder.query({
             query: (token) => {

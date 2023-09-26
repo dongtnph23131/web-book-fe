@@ -2,9 +2,29 @@ import { Button, Form, Input } from 'antd'
 import React, { useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
-
+import { AppState } from '../context/AppProvider'
+import { config } from '../config/index'
+const url = config()
 const CheckoutPayments = () => {
-    const [click, setClick] = useState(false)
+    const { payment, setPayment, notes, token } = AppState()
+    const [form] = Form.useForm()
+    const [coupons, setCoupons] = useState('')
+    const [errorSearch, setErrorSearch] = useState('')
+    const onFinish = ({ search }) => {
+        form.setFieldsValue({ search: '' })
+        fetch(`${url}/coupons/search/client?search=${search}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then(response => response.json()).then(data => {
+            if (!data?.message) {
+                setCoupons(data)
+            }
+            else {
+                setErrorSearch(data.message)
+            }
+        })
+    }
     return (
         <>
             <div className='flex justify-center items-center mt-10'>
@@ -33,19 +53,19 @@ const CheckoutPayments = () => {
                 <div className='mt-10 ml-20'>
                     <p className='text-2xl font-mono'>Hình thức thanh toán</p>
                     <div className='flex'>
-                        <button className='mt-5 w-8 h-8 bg-black rounded-full text-white flex justify-center items-center'>
+                        <button onClick={() => setPayment(1)} className={`mt-5 w-8 h-8 ${payment === 1 ? 'bg-black text-white' : 'bg-gray-400'} rounded-full  flex justify-center items-center`}>
                             <FaCheck />
                         </button>
                         <p className='mt-5 text-xl ml-5'>Giao hàng thu tiền tận nơi</p>
                     </div>
                     <div className='flex'>
-                        <button className='mt-5 w-8 h-8 bg-gray-400 rounded-full  flex justify-center items-center'>
+                        <button onClick={() => setPayment(2)} className={`mt-5 w-8 h-8 ${payment === 2 ? 'bg-black text-white' : 'bg-gray-400'} rounded-full  flex justify-center items-center`}>
                             <FaCheck />
                         </button>
                         <p className='mt-5 text-xl ml-5'>Thanh toán with VNPay</p>
                     </div>
                     <div className='flex'>
-                        <button className='mt-5 w-8 h-8 bg-gray-400 rounded-full  flex justify-center items-center'>
+                        <button onClick={() => setPayment(3)} className={`mt-5 w-8 h-8 ${payment === 3 ? 'bg-black text-white' : 'bg-gray-400'} rounded-full  flex justify-center items-center`}>
                             <FaCheck />
                         </button>
                         <p className='mt-5 text-xl ml-5'>Thanh toán with Momo</p>
@@ -53,12 +73,24 @@ const CheckoutPayments = () => {
                 </div>
                 <div className='ml-20 mt-10'>
                     <p className='text-2xl font-mono mt-5'>Mã giảm giá</p>
-                    <Form className='mt-10 flex'>
-                        <Form.Item>
-                            <Input placeholder='Nhập mã giảm giá' className='w-full' />
+                    <Form form={form} onFinish={onFinish} className='mt-10 flex'>
+                        <Form.Item name={'search'}>
+                            <Input onChange={()=>{
+                                setCoupons('')
+                                setErrorSearch('')
+                            }} placeholder='Nhập mã giảm giá' className='w-full' />
                         </Form.Item>
                         <Button className='ml-5' htmlType='submit' >Sử dụng</Button>
                     </Form>
+                    <p className='text-red-500'>{errorSearch?errorSearch:''}</p>
+                    {coupons ? <>
+                        <div className='flex '>
+                            <p>Mã giảm giá : </p><p className='text-red-500'>{coupons.name}</p>
+                        </div>
+                        <div className='flex mt-5'>
+                            <p>Giá trị : </p><p className='text-red-500'>{coupons.value}.000 đ</p>
+                        </div>
+                    </> : <></>}
                 </div>
             </div>
             <div className='flex justify-center items-center mt-10'>
