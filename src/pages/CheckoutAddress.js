@@ -126,8 +126,8 @@ const CheckoutAddress = () => {
                         Ghi chú giao hàng  <TextArea rows={4} className='mb-5 mt-5' />
                     </div>
                     <div className='flex justify-center items-center mt-10'>
-                        <NavLink to={'/'}><button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button></NavLink>
-                        <NavLink to={'/checkout/address'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
+                        <NavLink to={'/cart'}><button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button></NavLink>
+                        <NavLink to={'/checkout/payments'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
                     </div>
                 </> : <>
                     <div className='flex justify-center items-center mt-10'>

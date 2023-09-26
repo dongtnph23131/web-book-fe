@@ -19,6 +19,7 @@ import authApi from "../api/auth";
 import userApi from "../api/user";
 import cartApi from "../api/cart";
 import cartSlice from "../slices/cart";
+import couponsApi from "../api/coupons";
 const persistConfig = {
     key: 'root',
     storage,
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
-    [cartSlice.name]: cartSlice.reducer
+    [cartSlice.name]: cartSlice.reducer,
+    [couponsApi.reducerPath]:couponsApi.reducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
@@ -42,7 +44,7 @@ const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }).concat(categoryApi.middleware).concat(publishingCompanyApi.middleware).concat(authorApi.middleware).concat(bookApi.middleware).concat(authApi.middleware).concat(userApi.middleware).concat(cartApi.middleware)
+        }).concat(categoryApi.middleware).concat(publishingCompanyApi.middleware).concat(authorApi.middleware).concat(bookApi.middleware).concat(authApi.middleware).concat(userApi.middleware).concat(cartApi.middleware).concat(couponsApi.middleware)
 })
 const persistor = persistStore(store);
 export { store, persistor };

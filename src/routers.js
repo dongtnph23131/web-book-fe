@@ -20,6 +20,8 @@ import AuthorListAdmin from "./pages/admin/author/AuthorList";
 import PublishingCompanyListAdmin from "./pages/admin/publishingCompany/publishingCompany";
 import CheckoutAddress from "./pages/CheckoutAddress";
 import { AppState } from "./context/AppProvider";
+import ListUserAdmin from "./pages/admin/user/ListUserAdmin";
+import CheckoutPayments from "./pages/CheckoutPayments";
 
 const PrivateRouter = () => {
     const { userLogger } = AppState()
@@ -47,7 +49,8 @@ const routers = createBrowserRouter([
             { path: 'forgotPassword', element: <ForgotPassword /> },
             { path: 'resetPassword', element: <ResetPassword /> },
             { path: 'books', element: <BooksPage /> },
-            { path: 'checkout/address', element: <CheckoutAddress /> }
+            { path: 'checkout/address', element: <CheckoutAddress /> },
+            { path: '/checkout/payments', element: <CheckoutPayments /> }
         ]
     },
     {
@@ -58,7 +61,8 @@ const routers = createBrowserRouter([
                     { path: 'books/add', element: <BookAdd /> },
                     { path: 'categories', element: <CategoryListAdmin /> },
                     { path: 'authors', element: <AuthorListAdmin /> },
-                    { path: "publishingCompanys", element: <PublishingCompanyListAdmin /> }
+                    { path: "publishingCompanys", element: <PublishingCompanyListAdmin /> },
+                    { path: 'users', element: <ListUserAdmin /> }
                 ]
             }
         ]

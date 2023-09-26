@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 const userApi = createApi({
+    tagTypes: ['User'],
     reducerPath: 'user',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
     endpoints: (builder) => ({
         updatePassword: builder.mutation({
-            query: ({value,token}) => {
+            query: ({ value, token }) => {
                 return {
                     url: '/updatePassword',
                     method: 'PATCH',
@@ -25,16 +26,20 @@ const userApi = createApi({
             }
         }),
         resettPassword: builder.mutation({
-            query: ({token,password}) => {
+            query: ({ token, password }) => {
                 return {
                     url: `/resetPassword/${token}`,
                     method: 'PATCH',
-                    body: {password},
+                    body: { password },
                 }
             }
         }),
+        getAllUser: builder.query({
+            query: ({ role ,search}) => `/users?${role ? `role=${role}` : ``}${search?`&search=${search}`:``}`,
+            providesTags: ['User']
+        })
     })
 })
 
-export const { useUpdatePasswordMutation,useForgotPasswordMutation ,useResettPasswordMutation} = userApi
+export const { useUpdatePasswordMutation, useForgotPasswordMutation, useResettPasswordMutation, useGetAllUserQuery } = userApi
 export default userApi
