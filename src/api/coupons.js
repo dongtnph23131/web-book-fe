@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 const couponsApi = createApi({
     reducerPath: 'coupons',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-isfb.onrender.com/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-zjae.onrender.com/api' }),
     endpoints: (builder) => ({
         addCouponsToUser: builder.mutation({
             query: ({ token, userId, code }) => ({
