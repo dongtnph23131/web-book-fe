@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 const userApi = createApi({
     tagTypes: ['User'],
     reducerPath: 'user',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-isfb.onrender.com/api' }),
     endpoints: (builder) => ({
         updatePassword: builder.mutation({
             query: ({ value, token }) => {

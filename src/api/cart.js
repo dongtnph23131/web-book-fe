@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 const cartApi = createApi({
     tagTypes: ['Cart'],
     reducerPath: 'cart',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-isfb.onrender.com/api' }),
     endpoints: (builder) => ({
         getCartOfUser: builder.query({
             query: (token) => {

@@ -3,7 +3,7 @@ const token=JSON.parse(localStorage.getItem('token'))
 const bookApi = createApi({
     tagTypes: ['Book'],
     reducerPath: 'book',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://bookstore-isfb.onrender.com/api' }),
     endpoints: (builder) => ({
         getAllBooks: builder.query({
             query: ({ sort, order, search, limit, dataCategories, page }) => {
