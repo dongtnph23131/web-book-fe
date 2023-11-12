@@ -23,6 +23,7 @@ import { AppState } from "./context/AppProvider";
 import ListUserAdmin from "./pages/admin/user/ListUserAdmin";
 import CheckoutPayments from "./pages/CheckoutPayments";
 import Dashboard from "./pages/admin";
+import CheckoutFinal from "./pages/CheckoutFinal";
 
 const PrivateRouter = () => {
     const { userLogger } = AppState()
@@ -51,7 +52,8 @@ const routers = createBrowserRouter([
             { path: 'resetPassword', element: <ResetPassword /> },
             { path: 'books', element: <BooksPage /> },
             { path: 'checkout/address', element: <CheckoutAddress /> },
-            { path: '/checkout/payments', element: <CheckoutPayments /> }
+            { path: 'checkout/payments', element: <CheckoutPayments /> },
+            {path:'checkout/final',element:<CheckoutFinal/>}
         ]
     },
     {

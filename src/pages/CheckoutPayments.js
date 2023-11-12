@@ -62,43 +62,15 @@ const CheckoutPayments = () => {
                         <button onClick={() => setPayment(2)} className={`mt-5 w-8 h-8 ${payment === 2 ? 'bg-black text-white' : 'bg-gray-400'} rounded-full  flex justify-center items-center`}>
                             <FaCheck />
                         </button>
-                        <p className='mt-5 text-xl ml-5'>Thanh toán with VNPay</p>
+                        <p className='mt-5 text-xl ml-5'>Thanh toán Online</p>
                     </div>
-                    <div className='flex'>
-                        <button onClick={() => setPayment(3)} className={`mt-5 w-8 h-8 ${payment === 3 ? 'bg-black text-white' : 'bg-gray-400'} rounded-full  flex justify-center items-center`}>
-                            <FaCheck />
-                        </button>
-                        <p className='mt-5 text-xl ml-5'>Thanh toán with Momo</p>
-                    </div>
-                </div>
-                <div className='ml-20 mt-10'>
-                    <p className='text-2xl font-mono mt-5'>Mã giảm giá</p>
-                    <Form form={form} onFinish={onFinish} className='mt-10 flex'>
-                        <Form.Item name={'search'}>
-                            <Input onChange={()=>{
-                                setCoupons('')
-                                setErrorSearch('')
-                            }} placeholder='Nhập mã giảm giá' className='w-full' />
-                        </Form.Item>
-                        <Button className='ml-5' htmlType='submit' >Sử dụng</Button>
-                    </Form>
-                    <p className='text-red-500'>{errorSearch?errorSearch:''}</p>
-                    {coupons ? <>
-                        <div className='flex '>
-                            <p>Mã giảm giá : </p><p className='text-red-500'>{coupons.name}</p>
-                        </div>
-                        <div className='flex mt-5'>
-                            <p>Giá trị : </p><p className='text-red-500'>{coupons.value}.000 đ</p>
-                        </div>
-                    </> : <></>}
                 </div>
             </div>
             <div className='flex justify-center items-center mt-10'>
                 <NavLink to={'/checkout/address'}><button className='w-[7rem] px-5 py-5 font-bold text-white bg-gray-400 rounded-lg'>Quay lại</button></NavLink>
-                <NavLink to={'/checkout/payments'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
+                <NavLink to={'/checkout/final'}> <button className='w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5'>Tiếp tục</button></NavLink>
             </div>
         </>
     )
 }
-
 export default CheckoutPayments
