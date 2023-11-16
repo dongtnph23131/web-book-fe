@@ -54,7 +54,7 @@ const Header = () => {
                         </div>
                         <NavLink to={'/profile'} onClick={() => setIsMenu(false)}><button className="text-gray-700 block px-4 py-2 text-sm">Thông tin cá nhân</button></NavLink>
                         <NavLink to={'/updatepassword'} onClick={() => setIsMenu(false)}><button className="text-gray-700 block px-4 py-2 text-sm">Thay đổi mật khẩu</button></NavLink>
-                        <NavLink to={'/profile'} onClick={() => setIsMenu(false)}><button className="text-gray-700 block px-4 py-2 text-sm">Đơn hàng</button></NavLink>
+                        <NavLink to={'/myOrders'} onClick={() => setIsMenu(false)}><button className="text-gray-700 block px-4 py-2 text-sm">Đơn hàng</button></NavLink>
                         <button onClick={() => {
                             setIsMenu(false)
                             logOut()

@@ -11,6 +11,7 @@ import { NavLink } from 'react-router-dom';
 const Cart = () => {
     const { token } = AppState()
     const { data, isLoading } = useGetCartOfUserQuery(token)
+    console.log(data);
     const [addItemCart, { isLoadingAdd }] = useAddItemCartMutation()
     const [removeProductItem, { isLoadingRemoveProductItem }] = useRemoveItemProductCartMutation()
     const [removeItem, { isLoadingRemoveItem }] = useRemoveItemMutation()

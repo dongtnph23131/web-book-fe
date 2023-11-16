@@ -1,18 +1,27 @@
 import React from "react";
 import { AppState } from "../context/AppProvider";
 import { useGetProfileQuery } from "../api/auth";
-import { useGetCartOfUserQuery } from "../api/cart";
+import { useGetCartOfUserQuery, useRemoveCartMutation } from "../api/cart";
+import { useCreateOrderMutation } from "../api/order";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutFinal = () => {
-  const { payment, setPayment, notes, token } = AppState();
+  const navigate = useNavigate();
+  const { payment, setPayment, notes, token, setToken } = AppState();
   const { data: user, isLoading } = useGetProfileQuery(token);
+  const [removeCart] = useRemoveCartMutation();
   const { data: carts } = useGetCartOfUserQuery(token);
+  const [createOrder] = useCreateOrderMutation();
   return (
     <div>
       <div className="justify-center items-center mt-10">
         <div className="flex justify-between">
           <h3 className="font-mono text-2xl">{user?.user?.name}</h3>
-          <h3>Hình thức thanh toán : {payment===1?'Thanh toán khi nhận hàng':"Thanh toán online"}</h3>
+          <h3>
+            Hình thức thanh toán :{" "}
+            {payment === 1 ? "Thanh toán khi nhận hàng" : "Thanh toán online"}
+          </h3>
         </div>
         <br></br>
         <p className="font-mono text-xl">
@@ -58,7 +67,33 @@ const CheckoutFinal = () => {
         <p className="text-lg text-gray-950">$ {carts?.cart?.total}</p>
       </div>
       <div className="flex justify-center items-center mt-10">
-        <button className="w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5">
+        <button
+          onClick={async () => {
+            const orderItems = carts.cart.items.map((item) => {
+              return {
+                quantity: item.quantity,
+                productId: item.productId,
+              };
+            });
+            const address = `${user?.user?.numberHome}, Đường ${user?.user?.road} , ${user?.user?.ward}, ${user?.user?.district} , ${user?.user?.city}`;
+            const data = {
+              orderItems,
+              address,
+              userNameReceive: user?.user?.name,
+              phone: `0${user?.user?.phone}`,
+              node: notes,
+              totalOrder: carts?.cart?.total,
+              payMent: payment,
+            };
+            await createOrder(data).then((data) => {
+              console.log(data?.data?.token);
+              message.success("Đặt hàng thành công");
+              setToken(data?.data?.token)
+              navigate("/");
+            });
+          }}
+          className="w-[8rem] px-5 py-5 font-bold text-black bg-yellow-400 rounded-lg ml-5"
+        >
           Đặt hàng
         </button>
       </div>

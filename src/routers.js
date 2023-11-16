@@ -24,6 +24,7 @@ import ListUserAdmin from "./pages/admin/user/ListUserAdmin";
 import CheckoutPayments from "./pages/CheckoutPayments";
 import Dashboard from "./pages/admin";
 import CheckoutFinal from "./pages/CheckoutFinal";
+import ListOrderByUser from "./pages/ListOrderByUser";
 
 const PrivateRouter = () => {
     const { userLogger } = AppState()
@@ -53,7 +54,8 @@ const routers = createBrowserRouter([
             { path: 'books', element: <BooksPage /> },
             { path: 'checkout/address', element: <CheckoutAddress /> },
             { path: 'checkout/payments', element: <CheckoutPayments /> },
-            {path:'checkout/final',element:<CheckoutFinal/>}
+            {path:'checkout/final',element:<CheckoutFinal/>},
+            {path:'/myOrders',element:<ListOrderByUser/>}
         ]
     },
     {
